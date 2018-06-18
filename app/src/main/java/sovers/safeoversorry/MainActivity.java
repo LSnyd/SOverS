@@ -198,17 +198,16 @@ public class MainActivity extends AppCompatActivity implements Serializable {
 
 
         //Send the trip Informations to Firebase
-        Log.d(TAG, "onClick: sending a new message");
+        Log.i(TAG, "onClick: sending a new message");
+
+
 
 
 
         //Recieve String from shared preferences
         SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(this);
         String mUserId = preferences1.getString("follower", "");
-        if(!mUserId.equalsIgnoreCase(""))
-        {
-            mUserId = "no follower selected" ;  /* Edit the value here*/
-        }
+
 
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
@@ -219,24 +218,23 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             message.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
             message.setMessage(mMessage);
             message.setTimestamp(getTimestamp());
-/*
-            //Recieve String from shared preferences
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            String name = preferences.getString("Follower", "");
-            if(!name.equalsIgnoreCase(""))
-            {
-                name = name ;  /* Edit the value here
-            }
 
-*/
+
+            Log.i(TAG, "message_trip: getUid " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+            Log.i(TAG, "message_trip: dbnode_messages " + getString(R.string.dbnode_messages));
+            Log.i(TAG, "message_trip: mUserId: " + mUserId);
+            Log.i(TAG, "message_trip: getkey " + reference.push().getKey());
+            Log.i(TAG, "message_trip: message " + message);
+
             //insert the new message
             reference
                     .child(getString(R.string.dbnode_messages))
                     .child(mUserId)
-                    //.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child(reference.push().getKey())
                     .setValue(message);
-           // getDialog().dismiss();
+
+
+
             //Toast.makeText(getActivity(), "message sent", Toast.LENGTH_SHORT).show();
         }else{
             //Toast.makeText(getActivity(), "enter a message", Toast.LENGTH_SHORT).show();

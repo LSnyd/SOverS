@@ -121,20 +121,14 @@ public class Overview extends AppCompatActivity {
         TextView tripnametxt = (TextView)findViewById(R.id.tripname);
         TextView privacytxt = (TextView)findViewById(R.id.privacy);
 
-        // Write a message to the database
+      /*  // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
 
         myRef.setValue("NewTrip!");
 
-        //Recieve String from shared preferences
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String name = preferences.getString("trip1", "");
-        if(!name.equalsIgnoreCase(""))
-        {
-            name = name ;  /* Edit the value here*/
-        }
 
+       */
 
         //print the json string
         tripnametxt.setText(name);

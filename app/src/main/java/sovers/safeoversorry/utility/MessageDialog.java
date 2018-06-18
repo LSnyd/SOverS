@@ -39,20 +39,11 @@ public class MessageDialog extends DialogFragment {
         setArguments(new Bundle());
     }
 
-
     //widgets
     EditText mMessage;
 
-    //vars
     //private String mUserId;
     private String mUserId;
-
-    public String getid()
-    {
-        mUserId = getArguments().getString(getString(R.string.intent_user_id));
-        return mUserId;
-    }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,14 +55,12 @@ public class MessageDialog extends DialogFragment {
 
         //safe the mUserId to a shared preference
         //save to a shared preference
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-        SharedPreferences.Editor editor = preferences.edit();
+        SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+        SharedPreferences.Editor editor = preferences1.edit();
         editor.putString("follower", mUserId);
         editor.apply();
 
         Log.i(TAG, "Follower selected" + mUserId);
-
-        getDialog().dismiss();
     }
 
 
@@ -96,6 +85,13 @@ public class MessageDialog extends DialogFragment {
                     message.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     message.setMessage(mMessage.getText().toString());
                     message.setTimestamp(getTimestamp());
+
+                    Log.i(TAG, "message_messanger: getUid " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    Log.i(TAG, "message_messanger: dbnode_messages " + getString(R.string.dbnode_messages));
+                    Log.i(TAG, "message_messanger: mUserId: " + mUserId);
+                    Log.i(TAG, "message_messanger: getkey " + reference.push().getKey());
+                    Log.i(TAG, "message_messanger: message " + message);
+
 
                     //insert the new message
                     reference

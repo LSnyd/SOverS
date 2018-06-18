@@ -39,6 +39,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
                 @Override
                 public void onClick(View v) {
                     Log.i(TAG, "onClick: openMessageDialog: " + mUsers.get(getAdapterPosition()));
+
+
+
+
+
                     ((UserListActivity)mContext).openMessageDialog(mUsers.get(getAdapterPosition()).getUser_id());
 
                      }
