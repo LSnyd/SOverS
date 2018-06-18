@@ -20,14 +20,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDRrNP6-V1mY-MVUw8amH1vigac9E9YYsU" />
 
-        <activity android:name=".Overview">
-
-        </activity>
-
-
-
-
-
+        <activity android:name=".Overview"></activity>
         <activity android:name=".activity_home" />
         <activity android:name=".MainActivity" />
 
@@ -35,20 +28,14 @@
             android:name=".TrackingService"
             android:enabled="true"
             android:exported="true" />
-
-        <service
-            android:name=".utility.MyFirebaseMessagingService">
+        <service android:name=".utility.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-
-
-        <service
-            android:name=".utility.MyFirebaseInstanceIDService">
+        <service android:name=".utility.MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
@@ -58,11 +45,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-        <activity android:name=".RegisterActivity"/>
-        <activity android:name=".UserListActivity"/>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".UserListActivity" />
+        <activity android:name=".Follower"></activity>
     </application>
 
 </manifest>

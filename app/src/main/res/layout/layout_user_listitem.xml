@@ -10,7 +10,7 @@
         android:layout_height="70dp"
         android:id="@+id/profile_image"
         android:scaleType="centerCrop"
-        android:src="@drawable/tracking_enabled"/>
+        android:src="@drawable/user"/>
 
 
         <RelativeLayout

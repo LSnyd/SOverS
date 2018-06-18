@@ -116,7 +116,7 @@ public class TrackingService extends Service  {
         Log.i("location", "got a location start");
 
         //Specify how often your app should request the device’s location//
-        request.setInterval(100000);
+        request.setInterval(10000);
 
 
         //Get the most accurate location data available//

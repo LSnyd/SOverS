@@ -22,7 +22,6 @@
     <string name="change_password">Change Password</string>
 
 
-
     <!-- FCM Related Strings -->
     <string name="default_notification_channel_id" translatable="false">codingwithmitch.com.firebasedirectmessage.default_notification_channel_id</string>
     <string name="data_type">data_type</string>
@@ -41,7 +40,6 @@
     <!-- Firebase Database Nodes -->
     <string name="dbnode_users">users</string>
     <string name="dbnode_messages">messages</string>
-
 
 
     <!-- Firebase Database Fields -->

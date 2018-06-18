@@ -40,7 +40,7 @@ public class activity_home extends AppCompatActivity {
 
     public void follower (View v)
     {
-
+        startActivity(new Intent(activity_home.this, TripListActivity.class));
     }
 
 

@@ -1,28 +1,21 @@
 package sovers.safeoversorry.utility;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import sovers.safeoversorry.LoginActivity;
-import sovers.safeoversorry.MainActivity;
-import sovers.safeoversorry.Overview;
 import sovers.safeoversorry.R;
 import sovers.safeoversorry.UserListActivity;
 import sovers.safeoversorry.models.User;
 
-import static android.widget.Toast.LENGTH_LONG;
 
-
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
+public class Trip_summaryAdapter extends RecyclerView.Adapter<Trip_summaryAdapter.ViewHolder>{
 
     private static final String TAG = "EmployeesAdapter";
 
@@ -50,7 +43,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         }
     }
 
-    public UserAdapter(Context context, ArrayList<User> users) {
+    public Trip_summaryAdapter(Context context, ArrayList<User> users) {
         mUsers = users;
         mContext = context;
     }
