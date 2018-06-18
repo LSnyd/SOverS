@@ -125,10 +125,10 @@ public class Overview extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
 
-        myRef.setValue("NewTrip!");
 
         //Recieve String from shared preferences
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
+        //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String name = preferences.getString("trip1", "");
         if(!name.equalsIgnoreCase(""))
         {

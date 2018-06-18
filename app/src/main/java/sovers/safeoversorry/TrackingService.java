@@ -118,6 +118,7 @@ public class TrackingService extends Service  {
         //Specify how often your app should request the device’s location//
         request.setInterval(100000);
 
+
         //Get the most accurate location data available//
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
@@ -137,32 +138,36 @@ public class TrackingService extends Service  {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
 
+
+
+
                     //Recieve String from shared preferences
-                    //SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-                    //String mUserId = preferences1.getString("follower", "");
+                    SharedPreferences preferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
+                    //SharedPreferences preferences1 = PreferenceManager.getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
+                    String mUserId = preferences.getString("follower", "");
 
 
 
                     //mLoginPreferences=getSharedPreferences(getResources().getString(R.string.pref_name), Context.MODE_PRIVATE);
 
-                  /*  Location location = locationResult.getLastLocation();
+                    Location location = locationResult.getLastLocation();
 
 
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-                    if(!mMessage.equals("")){
+                    if(!location.equals("")){
 
                         //create the new message
                         Message message = new Message();
                         message.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        message.setPosition(location);
+                        message.setMessage("CurrentPosition " + location);
                         message.setTimestamp(getTimestamp());
 
 
-                        Log.i(TAG, "message_trip: getUid " + FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        Log.i(TAG, "message_trip: dbnode_messages " + getString(R.string.dbnode_messages));
-                       // Log.i(TAG, "message_trip: mUserId: " + mUserId);
-                        Log.i(TAG, "message_trip: getkey " + reference.push().getKey());
-                        Log.i(TAG, "message_trip: message " + message);
+                        Log.i("location", "message_trip: getUid " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        Log.i("location", "message_trip: dbnode_messages " + getString(R.string.dbnode_messages));
+                        Log.i("location", "message_trip: mUserId: " + location);
+                        Log.i("location", "message_trip: getkey " + reference.push().getKey());
+                        Log.i("location", "message_trip: message " + message);
 
                         //insert the new message
                         reference

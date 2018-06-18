@@ -25,6 +25,9 @@ import java.util.TimeZone;
 import sovers.safeoversorry.R;
 import sovers.safeoversorry.models.Message;
 import sovers.safeoversorry.MainActivity;
+
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by User on 11/11/2017.
  */
@@ -55,7 +58,8 @@ public class MessageDialog extends DialogFragment {
 
         //safe the mUserId to a shared preference
         //save to a shared preference
-        SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+        SharedPreferences preferences1 = getActivity().getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
+        //SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         SharedPreferences.Editor editor = preferences1.edit();
         editor.putString("follower", mUserId);
         editor.apply();

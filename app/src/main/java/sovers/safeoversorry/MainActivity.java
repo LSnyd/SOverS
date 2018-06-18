@@ -101,7 +101,8 @@ public class MainActivity extends AppCompatActivity implements Serializable {
 
 
         //Recieve String from shared preferences
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
         String follower = preferences.getString("follower", "");
 
         TextView followertxt = (TextView)findViewById(R.id.followerstxt);
@@ -191,7 +192,8 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         String trip1_string = gson.toJson(trip1);
 
         //save to a shared preference
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
+        //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("trip1", trip1_string);
         editor.apply();
@@ -215,7 +217,8 @@ public class MainActivity extends AppCompatActivity implements Serializable {
 
 
         //Recieve String from shared preferences
-        SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences1 = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
+        //SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(this);
         String mUserId = preferences1.getString("follower", "");
 
 
@@ -226,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             //create the new message
             Message message = new Message();
             message.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            message.setMessage(mMessage);
+            message.setMessage("NewTrip  " + mMessage);
             message.setTimestamp(getTimestamp());
 
 
