@@ -98,6 +98,16 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST);
         }
+
+
+        //Recieve String from shared preferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String follower = preferences.getString("follower", "");
+
+        TextView followertxt = (TextView)findViewById(R.id.followerstxt);
+        //print the follower string
+        followertxt.setText(follower);
+
     }
 
     @Override

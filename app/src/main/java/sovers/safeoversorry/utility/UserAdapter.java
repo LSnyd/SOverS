@@ -1,6 +1,7 @@
 package sovers.safeoversorry.utility;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import sovers.safeoversorry.LoginActivity;
+import sovers.safeoversorry.MainActivity;
+import sovers.safeoversorry.Overview;
 import sovers.safeoversorry.R;
 import sovers.safeoversorry.UserListActivity;
 import sovers.safeoversorry.models.User;
@@ -46,6 +49,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
                     ((UserListActivity)mContext).openMessageDialog(mUsers.get(getAdapterPosition()).getUser_id());
 
+
                      }
             });
         }
@@ -72,6 +76,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, int position) throws NullPointerException {
         holder.name.setText(mUsers.get(position).getName());
     }
+
 
 
     @Override

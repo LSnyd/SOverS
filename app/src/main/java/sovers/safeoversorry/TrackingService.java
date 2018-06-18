@@ -21,6 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -40,16 +42,21 @@ import android.widget.Toast;
 
 import android.support.v4.app.NotificationCompat;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
+
+import sovers.safeoversorry.models.Message;
 
 public class TrackingService extends Service  {
 
-    // private DocumentReference mDocRef = FirebaseFirestore.getInstance().collection("Trips").document(MainActivity.trip1.trip_name);
-
-
 
     private static final String TAG = TrackingService.class.getSimpleName();
+
+    private String mMessage;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -130,6 +137,47 @@ public class TrackingService extends Service  {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
 
+                    //Recieve String from shared preferences
+                    //SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+                    //String mUserId = preferences1.getString("follower", "");
+
+
+
+                    //mLoginPreferences=getSharedPreferences(getResources().getString(R.string.pref_name), Context.MODE_PRIVATE);
+
+                  /*  Location location = locationResult.getLastLocation();
+
+
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+                    if(!mMessage.equals("")){
+
+                        //create the new message
+                        Message message = new Message();
+                        message.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        message.setPosition(location);
+                        message.setTimestamp(getTimestamp());
+
+
+                        Log.i(TAG, "message_trip: getUid " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        Log.i(TAG, "message_trip: dbnode_messages " + getString(R.string.dbnode_messages));
+                       // Log.i(TAG, "message_trip: mUserId: " + mUserId);
+                        Log.i(TAG, "message_trip: getkey " + reference.push().getKey());
+                        Log.i(TAG, "message_trip: message " + message);
+
+                        //insert the new message
+                        reference
+                                .child(getString(R.string.dbnode_messages))
+                                .child(mUserId)
+                                .child(reference.push().getKey())
+                                .setValue(message);
+
+
+
+                        //Toast.makeText(getActivity(), "message sent", Toast.LENGTH_SHORT).show();
+                    }else{
+                        //Toast.makeText(getActivity(), "enter a message", Toast.LENGTH_SHORT).show();
+                    }
+
    /*                  //Get a reference to the database, so your app can perform read and write operations//
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
                     Location location = locationResult.getLastLocation();
@@ -179,5 +227,11 @@ public class TrackingService extends Service  {
     public void onDestroy() {
         super.onDestroy();
         Toast.makeText(this, "Tracking Stopped.", Toast.LENGTH_LONG).show();
+    }
+
+    private String getTimestamp(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        sdf.setTimeZone(TimeZone.getTimeZone("Canada/Pacific"));
+        return sdf.format(new Date());
     }
 }

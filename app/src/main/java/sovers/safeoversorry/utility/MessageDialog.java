@@ -61,6 +61,8 @@ public class MessageDialog extends DialogFragment {
         editor.apply();
 
         Log.i(TAG, "Follower selected" + mUserId);
+
+
     }
 
 
@@ -73,9 +75,17 @@ public class MessageDialog extends DialogFragment {
 
         Button send = (Button) view.findViewById(R.id.send);
         send.setOnClickListener(new View.OnClickListener() {
+
+
+
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: sending a new message");
+                getDialog().dismiss();
+
+
+
+
+       /*         Log.d(TAG, "onClick: sending a new message");
 
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
                 if(!mMessage.getText().toString().equals("")){
@@ -104,7 +114,7 @@ public class MessageDialog extends DialogFragment {
                 }else{
                     Toast.makeText(getActivity(), "enter a message", Toast.LENGTH_SHORT).show();
                 }
-
+*/
             }
         });
 

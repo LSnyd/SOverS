@@ -9,6 +9,7 @@ public class Message {
     private String message;
     private String user_id;
     private String timestamp;
+    private android.location.Location position;
 
     public Message(String message, String user_id, String timestamp) {
         this.message = message;
@@ -34,6 +35,10 @@ public class Message {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public void setPosition(android.location.Location position) {
+        this.position = position;
     }
 
     public String getTimestamp() {
