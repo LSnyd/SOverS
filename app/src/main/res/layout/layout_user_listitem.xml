@@ -38,20 +38,8 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="30dp">
 
-        <Button
-            android:id="@+id/donebutton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="87dp"
-            android:layout_weight="1"
-            android:onClick="done"
-            android:text="Done"
-            app:layout_constraintTop_toBottomOf="@+id/destination"
-            tools:layout_editor_absoluteX="98dp" />
 
-
-
-</RelativeLayout>
+    </RelativeLayout>
 
 
     </RelativeLayout>
