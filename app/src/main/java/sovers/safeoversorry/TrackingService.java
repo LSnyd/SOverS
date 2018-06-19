@@ -115,8 +115,14 @@ public class TrackingService extends Service  {
 
         Log.i("location", "got a location start");
 
+
+        SharedPreferences preferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
+        String mUserId = preferences.getString("follower", "");
+        int trip1_frequence = preferences.getInt("trip1_frequence", 1000);
         //Specify how often your app should request the device’s location//
-        request.setInterval(10000);
+
+
+        request.setInterval(trip1_frequence);
 
 
         //Get the most accurate location data available//
@@ -145,6 +151,8 @@ public class TrackingService extends Service  {
                     SharedPreferences preferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
                     //SharedPreferences preferences1 = PreferenceManager.getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
                     String mUserId = preferences.getString("follower", "");
+                    String trip1_name = preferences.getString("trip1_name", "");
+
 
 
 
@@ -173,6 +181,7 @@ public class TrackingService extends Service  {
                         reference
                                 .child(getString(R.string.dbnode_messages))
                                 .child(mUserId)
+                                .child(trip1_name)
                                 .child(reference.push().getKey())
                                 .setValue(message);
 

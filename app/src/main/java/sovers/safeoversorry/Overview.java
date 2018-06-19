@@ -33,7 +33,7 @@ public class Overview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
 
-
+        //The nice way to sign in
        /* if(FirebaseAuth.getInstance().getCurrentUser() == null) {
             // Start sign in/sign up activity
             Log.i("Messanger", "made it till sign up activity");
@@ -54,12 +54,8 @@ public class Overview extends AppCompatActivity {
 
             // Load chat room contents
             //displayChatMessages();
-        }*/
-
-
-
+        }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode,
@@ -83,8 +79,10 @@ public class Overview extends AppCompatActivity {
                 finish();
             }
         }
-
+*/
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,6 +90,7 @@ public class Overview extends AppCompatActivity {
         return true;
     }
 
+    //The logout Button on the TopRight Corner
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.menu_sign_out) {
@@ -112,12 +111,12 @@ public class Overview extends AppCompatActivity {
         return true;
     }
 
-
+    //When the activity is restarted, get the trip info from the shared preferences and show them on the display
     @Override
     public void onRestart(){
         super.onRestart();
 
-        //Find the right one in the Layout
+        //Find the right text in the Layout
         TextView tripnametxt = (TextView)findViewById(R.id.tripname);
         TextView privacytxt = (TextView)findViewById(R.id.privacy);
 
@@ -125,41 +124,29 @@ public class Overview extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
 
-
         //Recieve String from shared preferences
         SharedPreferences preferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
         //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String name = preferences.getString("trip1", "");
-        if(!name.equalsIgnoreCase(""))
-        {
-            name = name ;  /* Edit the value here*/
-        }
-
 
         //print the json string
         tripnametxt.setText(name);
         privacytxt.setText(name);
     }
 
+    //Open the new trip activity
     public void new_trip (View v)
     {
         startActivity(new Intent(Overview.this, MainActivity.class));
     }
 
-    public void messanger (View v)
-    {
-        //startActivity(new Intent(Overview.this, activity_home.class));
 
-
-
-
-
-    }
-
+    //Stop tracking (backup-button)
     public void stoptracking (View v)
     {   // Stop android service.
         Intent stopServiceIntent = new Intent(Overview.this, TrackingService.class);
         stopService(stopServiceIntent);
+        Log.i("location", "Service Stopped");
     }
 
 }

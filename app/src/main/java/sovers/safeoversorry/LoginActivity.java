@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-
+//The class manages the login
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
@@ -52,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         setupFirebaseAuth();
+
+        //check if all services are ok
         if(servicesOK()){
             init();
         }
@@ -188,12 +190,12 @@ public class LoginActivity extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
-    /*
-        ----------------------------- Firebase setup ---------------------------------
-     */
+    //Firebase setup
     private void setupFirebaseAuth(){
         Log.d(TAG, "setupFirebaseAuth: started.");
 
+
+        //Check if the user is signed in, if signed in, go to the next activity
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -205,24 +207,6 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     Toast.makeText(LoginActivity.this, "Authenticated with: " + user.getEmail(), Toast.LENGTH_SHORT).show();
 
-                    /*
-                    ////////////////////////////////////////////////////////////////////////////////////////////////
-                    Intent intent = new Intent(LoginActivity.this, UserListActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-                    //check for extras from FCM
-                    if (getIntent().getExtras() != null) {
-                        Log.d(TAG, "initFCM: found intent extras: " + getIntent().getExtras().toString());
-                        for (String key : getIntent().getExtras().keySet()) {
-                            Object value = getIntent().getExtras().get(key);
-                            Log.d(TAG, "initFCM: Key: " + key + " Value: " + value);
-                        }
-                        String data = getIntent().getStringExtra("data");
-                        Log.d(TAG, "initFCM: data: " + data);
-                    }
-                    startActivity(intent);
-                    */
-
                     startActivity(new Intent(LoginActivity.this, activity_home.class));
                     finish();
 
@@ -231,8 +215,7 @@ public class LoginActivity extends AppCompatActivity {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // ...
-            }
+                    }
         };
     }
 
