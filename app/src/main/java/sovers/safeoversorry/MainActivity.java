@@ -201,14 +201,17 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             //create the new message
             Message message = new Message();
             message.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            message.setMessage("NewTrip  " + mMessage);
+            message.setMessage("mMessage");
+            message.setStatus("status");
+            message.setSpeed(20);
+            message.setDistance(20);
             message.setTimestamp(getTimestamp());
 
-            Log.i(TAG, "message_trip: getUid " + FirebaseAuth.getInstance().getCurrentUser().getUid());
-            Log.i(TAG, "message_trip: dbnode_messages " + getString(R.string.dbnode_messages));
-            Log.i(TAG, "message_trip: mUserId: " + mUserId);
-            Log.i(TAG, "message_trip: getkey " + reference.push().getKey());
-            Log.i(TAG, "message_trip: message " + message);
+            Log.i("location", "message_trip: getUid " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+            Log.i("location", "message_trip: dbnode_messages " + getString(R.string.dbnode_messages));
+            Log.i("location", "message_trip: Info: " + "Distance: " + 20 + " Speed: " + 20 + "km/h");
+            Log.i("location", "message_trip: getkey " + reference.push().getKey());
+            Log.i("location", "message_trip: message " + message);
 
             //insert the new message
             reference
@@ -217,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                     .child(trip1.trip_name)
                     .child(reference.push().getKey())
                     .setValue(message);
-
 
 
             //Toast.makeText(getActivity(), "message sent", Toast.LENGTH_SHORT).show();
@@ -234,11 +236,9 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                                 .getCurrentUser()
                                 .getDisplayName())
                 );
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String name = user.getUid();
         name = name + "/" + trip_name + "Destination";
-
         //Store the Informations in Firestore
         Map<String, Object> dataToSave = new HashMap<String, Object>();
         //  dataToSave.put("Name", trip_name );
