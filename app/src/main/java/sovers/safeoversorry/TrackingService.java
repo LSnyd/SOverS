@@ -53,10 +53,19 @@ import sovers.safeoversorry.models.Message;
 
 public class TrackingService extends Service  {
 
+    private android.location.Location oldlocation;
+    private android.location.Location currentlocation;
 
     private static final String TAG = TrackingService.class.getSimpleName();
 
     private String mMessage;
+
+    private String mUserId;
+    private String trip1_name;
+    private String trip1_Lat;
+    private String trip1_Lng;
+    private int trip1_frequence;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -67,9 +76,29 @@ public class TrackingService extends Service  {
     public void onCreate() {
         super.onCreate();
         Log.i("location", "service start");
+
+        oldlocation = null;
+
+        //get all important trip informations
+        SharedPreferences preferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
+        mUserId = preferences.getString("follower", "");
+        trip1_name = preferences.getString("trip1_name", "");
+        trip1_Lat = preferences.getString("trip1_Lat", "");
+        trip1_Lng = preferences.getString("trip1_Lng", "");
+        trip1_frequence = preferences.getInt("trip1_frequence", 1000);
+
+
         buildNotification();
         requestLocationUpdates();
     }
+
+
+
+
+
+
+
+
 
     //Create the persistent notification//
     private void buildNotification() {
@@ -78,10 +107,11 @@ public class TrackingService extends Service  {
         PendingIntent broadcastIntent = PendingIntent.getBroadcast(
                 this, 0, new Intent(stop), PendingIntent.FLAG_UPDATE_CURRENT);
 
+        //The notification, that can be clicked, to stop the tracking
         // Create the persistent notification//
         Notification.Builder builder = new Notification.Builder(this)
                 .setContentTitle(getString(R.string.app_name))
-               // .setContentText(getString(R.string.tracking_enabled_notif))
+                .setContentText("We'll keep an eye on you")
 
                 //Make this notification ongoing so it can’t be dismissed by the user//
                 .setOngoing(true)
@@ -90,6 +120,8 @@ public class TrackingService extends Service  {
         startForeground(1, builder.build());
     }
 
+
+    //If the notification is klicked
     protected BroadcastReceiver stopReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -99,13 +131,7 @@ public class TrackingService extends Service  {
 
             //Unregister the BroadcastReceiver when the notification is tapped//
             unregisterReceiver(stopReceiver);
-
-
-
-
-
-
-        }
+            }
     };
 
 
@@ -115,15 +141,8 @@ public class TrackingService extends Service  {
 
         Log.i("location", "got a location start");
 
-
-        SharedPreferences preferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
-        String mUserId = preferences.getString("follower", "");
-        int trip1_frequence = preferences.getInt("trip1_frequence", 1000);
-        //Specify how often your app should request the device’s location//
-
-
-        request.setInterval(trip1_frequence);
-
+        //request.setInterval(trip1_frequence);
+        request.setInterval(1000);
 
         //Get the most accurate location data available//
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -136,6 +155,11 @@ public class TrackingService extends Service  {
         int permission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
 
+        SharedPreferences preferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
+        String mUserId = preferences.getString("follower", "");
+
+        //Specify how often your app should request the device’s location//
+
         //If the app currently has access to the location permission...//
         if (permission == PackageManager.PERMISSION_GRANTED) {
 
@@ -144,95 +168,20 @@ public class TrackingService extends Service  {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
 
-
-
-
-                    //Recieve String from shared preferences
-                    SharedPreferences preferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
-                    //SharedPreferences preferences1 = PreferenceManager.getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
-                    String mUserId = preferences.getString("follower", "");
-                    String trip1_name = preferences.getString("trip1_name", "");
-
-
-
-
-                    //mLoginPreferences=getSharedPreferences(getResources().getString(R.string.pref_name), Context.MODE_PRIVATE);
-
                     Location location = locationResult.getLastLocation();
 
-
-                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
                     if(!location.equals("")){
 
-                        //create the new message
-                        Message message = new Message();
-                        message.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        message.setMessage("CurrentPosition " + location);
-                        message.setTimestamp(getTimestamp());
 
+                    //mLogi
 
-                        Log.i("location", "message_trip: getUid " + FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        Log.i("location", "message_trip: dbnode_messages " + getString(R.string.dbnode_messages));
-                        Log.i("location", "message_trip: mUserId: " + location);
-                        Log.i("location", "message_trip: getkey " + reference.push().getKey());
-                        Log.i("location", "message_trip: message " + message);
+                    travelInfo(location);
 
-                        //insert the new message
-                        reference
-                                .child(getString(R.string.dbnode_messages))
-                                .child(mUserId)
-                                .child(trip1_name)
-                                .child(reference.push().getKey())
-                                .setValue(message);
-
-
-
-                        //Toast.makeText(getActivity(), "message sent", Toast.LENGTH_SHORT).show();
                     }else{
                         //Toast.makeText(getActivity(), "enter a message", Toast.LENGTH_SHORT).show();
                     }
 
-   /*                  //Get a reference to the database, so your app can perform read and write operations//
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
-                    Location location = locationResult.getLastLocation();
-                    if (location != null) {
-
-
-                        Log.i("location", "got a location");
-
-                        FirebaseDatabase.getInstance()
-                                .getReference()
-                                .push()
-                                .setValue(new ChatMessage(location.toString(),
-                                        FirebaseAuth.getInstance()
-                                                .getCurrentUser()
-                                                .getDisplayName())
-                              );
-
-
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        String name = user.getUid();
-                        name = name + "/" + MainActivity.trip1.trip_name + "Location";
-
-                        //Store the Informations in Firestore
-                        Map<String, Object> dataToSave = new HashMap<String, Object>();
-                        dataToSave.put("Latitude", location.getLatitude() );
-                        dataToSave.put("Longitude", location.getLongitude() );
-                        FirebaseFirestore.getInstance().document(name).set(dataToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("Firestore", "Data was saved!");
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("Firestore", "Data was not saved!", e);
-                            }
-                        });
-
-
-                    }*/
-                }
+                   }
             }, null);
         }
     }
@@ -247,5 +196,77 @@ public class TrackingService extends Service  {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("Canada/Pacific"));
         return sdf.format(new Date());
+    }
+
+    public void travelInfo (android.location.Location location){
+
+        float distance_old = 666;
+        float distance = 666;
+        float speed = 666;
+        String status = "first status";
+
+        //set the current location
+        if (oldlocation == null)
+        {oldlocation = location;}
+        else
+        {currentlocation = location;}
+
+        //calculate the distance to the destination
+
+        Location Destination = new Location("newlocation");
+        Destination.setLatitude(Double.valueOf(trip1_Lat));
+        Destination.setLongitude(Double.valueOf(trip1_Lng));
+
+       // distance = currentlocation.distanceTo(Destination); //in m
+
+        //calculate the speed
+        distance_old = currentlocation.distanceTo(oldlocation);
+       speed = (distance_old/1000/((trip1_frequence/1000)/3600));
+
+        //the current becomes the old Location"Distance: " + distance + " Speed: " + speed + "km/h"
+        oldlocation = currentlocation;
+
+
+        //Check if the publisher is fast enough
+        if (speed >= 3)
+        {
+            status = "ok";            }
+        else
+        {
+            status = "not ok";        }
+
+
+        sendMessage(distance, speed, status);
+    }
+
+    public void sendMessage (float distance, float speed, String status){
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+            //create the new message
+            Message message = new Message();
+            message.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            message.setMessage("Distance: " + distance + " Speed: " + speed + "km/h");
+            message.setStatus(status);
+            message.setSpeed(speed);
+            message.setDistance(distance);
+            message.setTimestamp(getTimestamp());
+
+            Log.i("location", "message_trip: getUid " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+            Log.i("location", "message_trip: dbnode_messages " + getString(R.string.dbnode_messages));
+            Log.i("location", "message_trip: Info: " + "Distance: " + distance + " Speed: " + speed + "km/h");
+            Log.i("location", "message_trip: getkey " + reference.push().getKey());
+            Log.i("location", "message_trip: message " + message);
+
+            //insert the new message
+            reference
+                    .child(getString(R.string.dbnode_messages))
+                    .child(mUserId)
+                    .child(trip1_name)
+                    .child(reference.push().getKey())
+                    .setValue(message);
+
+
+
     }
 }
