@@ -20,7 +20,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDRrNP6-V1mY-MVUw8amH1vigac9E9YYsU" />
 
-        <activity android:name=".Overview"></activity>
+        <activity android:name=".Overview" />
         <activity android:name=".activity_home" />
         <activity android:name=".MainActivity" />
 
@@ -48,7 +48,8 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".UserListActivity" />
-        <activity android:name=".Follower"></activity>
+        <activity android:name=".Follower" />
+        <activity android:name=".dbtest"></activity>
     </application>
 
 </manifest>

@@ -4,11 +4,11 @@ package sovers.safeoversorry.models;
 public class Trip_summary {
 
     private String name;
-    private String publisher;
-
-    public Trip_summary(String name, String user_id) {
+    // private String user_id;
+    public Trip_summary(String name) {
+        // public User(String name, String user_id) {
         this.name = name;
-        this.publisher = user_id;
+        //  this.user_id = user_id;
     }
 
     public Trip_summary() {
@@ -23,19 +23,19 @@ public class Trip_summary {
         this.name = name;
     }
 
-    public String getUser_id() {
-        return publisher;
-    }
+    //  public String getUser_id() {
+    //    return user_id;
+    //}
 
-    public void setUser_id(String user_id) {
-        this.publisher = user_id;
-    }
+    //  public void setUser_id(String user_id) {
+    //    this.user_id = user_id;
+    //}
 
     @Override
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
-                ", user_id='" + publisher + '\'' +
+                //", user_id='" + user_id + '\'' +
                 '}';
     }
 }

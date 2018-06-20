@@ -91,6 +91,41 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1054021837126:android:b7d7c1930bdd44e7",
+        "android_client_info": {
+          "package_name": "com.tabian.firebasereaddata"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1054021837126-8sb7srnlpoa54mj544da5p35o5eoj1lb.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1054021837126-8sb7srnlpoa54mj544da5p35o5eoj1lb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy4pSxBZvuWSyRYCT4NCKdIYCUmESGIGg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1054021837126:android:82e11c33e4b8b7b3",
         "android_client_info": {
           "package_name": "sovers.safeoversorry"

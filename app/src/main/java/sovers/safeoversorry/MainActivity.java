@@ -50,57 +50,42 @@ import sovers.safeoversorry.utility.MessageDialog;
 public class MainActivity extends AppCompatActivity implements Serializable {
 
     private static final int PERMISSIONS_REQUEST = 100;
-
     private RadioButton Live, radio1, radio2, radio5;
-
+    public static trip trip1 = new trip();
+    private static final String TAG = "LoginActivity";
+    private String mUserId;
+    private String mMessage;
     int PLACE_PICKER_REQUEST = 1;
     java.lang.String destination1;
-
-    public static trip trip1 = new trip();
-
-    private static final String TAG = "LoginActivity";
-
-    private String mUserId;
-
-    private String mMessage;
-
-    // public static DocumentReference mDocRef = FirebaseFirestore.getInstance().collection("Trips").document();
-
-
+    private String trip1_lat;
+    private String trip1_lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //mUserId = getString(R.string.intent_user_id);
-        //mUserId = getString(R.string.intent_user_id);
-
-
         //Check whether GPS tracking is enabled//
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             finish();
         }
-
         //Check whether this app has access to the location permission//
         int permission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
 
         //If the location permission has been granted, then start the TrackerService//
         if (permission == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "GPS possible!", Toast.LENGTH_SHORT).show();
-            //startTrackerService();
-        } else {
+            Toast.makeText(this, "GPS possible!", Toast.LENGTH_SHORT).show();        }
 
-            //If the app doesn’t currently have access to the user’s location, then request access//
+        else {//If the app doesn’t currently have access to the user’s location, then request access//
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST);
-        }
+                    PERMISSIONS_REQUEST);        }
 
 
-        //Recieve String from shared preferences
+
+        //Recieve the follower String from shared preferences
         //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences preferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
         String follower = preferences.getString("follower", "");
@@ -128,18 +113,9 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             Toast.makeText(this, "Please enable location services to allow GPS tracking", Toast.LENGTH_SHORT).show();
         }
     }
-/*
-    //Start the TrackerService//
-    private void startTrackerService() {
-        startService(new Intent(this, TrackingService.class));
 
-        //Notify the user that tracking has been enabled//
-        Toast.makeText(this, "GPS tracking enabled", Toast.LENGTH_SHORT).show();
-
-
-    }
-*/
-
+    // Creaate a trip object and safe all informations
+    // --> can be replaced by saving all the informations in the shared preferences!!!!
     public void create_new_trip (View v)
     { Button new_trip = (Button) v;
 
@@ -157,19 +133,19 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         radio5 = findViewById(R.id.radioButton5);
 
 
-        //Check the richt radio Button
+        //Check the right radio Button
         if(Live.isChecked()){
-            trip1.gps_frequency = 0;
+            trip1.gps_frequency = 5000;
         }
         else if(radio1.isChecked()){
-            trip1.gps_frequency = 1;
+            trip1.gps_frequency = 60000;
         }
 
         else if(radio2.isChecked()){
-            trip1.gps_frequency = 2;
+            trip1.gps_frequency = 120000;
         }
         else if(radio5.isChecked()){
-            trip1.gps_frequency = 5;
+            trip1.gps_frequency = 300000;
         }
 
         //read the name input
@@ -191,11 +167,17 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         Gson gson = new Gson();
         String trip1_string = gson.toJson(trip1);
 
+
         //save to a shared preference
         SharedPreferences preferences = getSharedPreferences("MY_SHARED_PREF", MODE_PRIVATE);
-        //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //SharedPreferences preferences = PrefereeManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("trip1", trip1_string);
+        editor.putInt("trip1_frequence", trip1.gps_frequency);
+        editor.putString("trip1_destination", trip1.destination);
+        editor.putString("trip1_name", trip1.trip_name);
+        editor.putString("trip1_Lat", trip1_lat);
+        editor.putString("trip1_Lng", trip1_lng);
         editor.apply();
 
         mMessage = trip1_string;
@@ -207,13 +189,8 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         Toast.makeText(this, "GPS tracking enabled", Toast.LENGTH_SHORT).show();
         /////////////////////////////////////////////////////////////////////////////////////////
 
-
-
         //Send the trip Informations to Firebase
         Log.i(TAG, "onClick: sending a new message");
-
-
-
 
 
         //Recieve String from shared preferences
@@ -229,34 +206,31 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             //create the new message
             Message message = new Message();
             message.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            message.setMessage("NewTrip  " + mMessage);
+            message.setMessage("mMessage");
+            message.setStatus("status");
+            message.setSpeed(20);
+            message.setDistance(20);
             message.setTimestamp(getTimestamp());
 
-
-            Log.i(TAG, "message_trip: getUid " + FirebaseAuth.getInstance().getCurrentUser().getUid());
-            Log.i(TAG, "message_trip: dbnode_messages " + getString(R.string.dbnode_messages));
-            Log.i(TAG, "message_trip: mUserId: " + mUserId);
-            Log.i(TAG, "message_trip: getkey " + reference.push().getKey());
-            Log.i(TAG, "message_trip: message " + message);
+            Log.i("location", "message_trip: getUid " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+            Log.i("location", "message_trip: dbnode_messages " + getString(R.string.dbnode_messages));
+            Log.i("location", "message_trip: Info: " + "Distance: " + 20 + " Speed: " + 20 + "km/h");
+            Log.i("location", "message_trip: getkey " + reference.push().getKey());
+            Log.i("location", "message_trip: message " + message);
 
             //insert the new message
             reference
                     .child(getString(R.string.dbnode_messages))
                     .child(mUserId)
+                    .child(trip1.trip_name)
                     .child(reference.push().getKey())
                     .setValue(message);
-
 
 
             //Toast.makeText(getActivity(), "message sent", Toast.LENGTH_SHORT).show();
         }else{
             //Toast.makeText(getActivity(), "enter a message", Toast.LENGTH_SHORT).show();
         }
-
-
-
-
-
 
    /*     //send the location via Firebase
         FirebaseDatabase.getInstance()
@@ -267,11 +241,9 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                                 .getCurrentUser()
                                 .getDisplayName())
                 );
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String name = user.getUid();
         name = name + "/" + trip_name + "Destination";
-
         //Store the Informations in Firestore
         Map<String, Object> dataToSave = new HashMap<String, Object>();
         //  dataToSave.put("Name", trip_name );
@@ -306,7 +278,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             e.printStackTrace();
         }
 
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -316,12 +287,15 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                 String toastMsg = String.format("%s", place.getName()+",\n"+place.getAddress());
                 destination1 = toastMsg;
 
-                //Place place1 = PlacePicker.getLatLngBounds(data, this);
+
 
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
 
                 TextView destinationtxt = (TextView)findViewById(R.id.destinationtxt);
                 destinationtxt.setText(destination1);
+
+                trip1_lat = String.valueOf(place.getLatLng().latitude);
+                trip1_lng = String.valueOf(place.getLatLng().longitude);
             }
         }
     }
@@ -355,9 +329,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     @Override
     public void onRestart() {
         super.onRestart();
-
-
-
 
     }
 }

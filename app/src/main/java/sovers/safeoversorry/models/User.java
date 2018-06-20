@@ -4,11 +4,11 @@ package sovers.safeoversorry.models;
 public class User {
 
     private String name;
-    private String user_id;
+   private String user_id;
 
     public User(String name, String user_id) {
         this.name = name;
-        this.user_id = user_id;
+       this.user_id = user_id;
     }
 
     public User() {
@@ -23,13 +23,13 @@ public class User {
         this.name = name;
     }
 
-    public String getUser_id() {
-        return user_id;
+ public String getUser_id() {
+      return user_id;
     }
 
     public void setUser_id(String user_id) {
-        this.user_id = user_id;
-    }
+     this.user_id = user_id;
+  }
 
     @Override
     public String toString() {
