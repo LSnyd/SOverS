@@ -6,21 +6,24 @@ package sovers.safeoversorry.models;
 
 public class Message {
 
-    private String message;
+    private String destination;
     private String user_id;
+    private String publisher;
     private String timestamp;
     private String status;
     private float speed;
     private float distance;
     private android.location.Location position;
 
-    public Message(String message, String user_id, String timestamp, String status, float speed, float distance) {
-        this.message = message;
+    public Message(String destination, String user_id, String timestamp, String publisher, String status,  float speed, float distance) {
+        this.destination = destination;
         this.user_id = user_id;
         this.timestamp = timestamp;
         this.status = status;
         this.speed = speed;
         this.distance = distance;
+       this.publisher =publisher;
+
 
     }
 
@@ -28,12 +31,12 @@ public class Message {
 
     }
 
-    public String getMessage() {
-        return message;
+    public String getDestination() {
+        return destination;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
     public String getUser_id() {
@@ -80,14 +83,20 @@ public class Message {
         this.distance = distance;
     }
 
+    public void setPublisher(String publisher) { this.publisher = publisher; }
+
+ public String getPublisher() { return publisher; }
+
+
 
 
     @Override
     public String toString() {
         return "Message{" +
-                "message='" + message + '\'' +
+                "destination='" + destination + '\'' +
                 "position='" + position + '\'' +
                 ", user_id='" + user_id + '\'' +
+               ", publisher='" + publisher + '\'' +
                 "status='" + status + '\'' +
                 "speed='" + speed + '\'' +
                 ", distance='" + distance + '\'' +
